@@ -1,10 +1,9 @@
 import Image from "next/image";
 import Categories from "./components/categories";
 import { prismaClient } from "@/lib/prisma";
-import ProductList from "./components/product-list";
 import SectionTitle from "./components/section-title";
 import PromoBanner from "./components/promo-banner";
-import Footer from "@/components/ui/footer";
+import ProductList from "@/components/ui/product-list";
 
 export default async function Home() {
   //Busca os produtos com discountPercentage > 0 (Ofertas)
