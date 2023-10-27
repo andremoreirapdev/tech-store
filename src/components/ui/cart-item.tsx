@@ -9,10 +9,22 @@ interface CartItemProps {
 }
 
 const CartItem = ({ product }: CartItemProps) => {
-  const { decreaseProductQuantity } = useContext(CartContext);
+  const {
+    decreaseProductQuantity,
+    IncreaseProductQuantity,
+    removeProductFromCart,
+  } = useContext(CartContext);
 
   const handleDecreaseProductQuantityClick = () => {
     decreaseProductQuantity(product.id);
+  };
+
+  const handleIncreaseProductQuantityClick = () => {
+    IncreaseProductQuantity(product.id);
+  };
+
+  const handleRemoveProductFromCartClick = () => {
+    removeProductFromCart(product.id);
   };
 
   return (
@@ -46,23 +58,34 @@ const CartItem = ({ product }: CartItemProps) => {
           </div>
 
           <div className="mt-4 flex items-center gap-1">
-            <Button size="icon" variant="outline" className="h-8 w-8">
-              <ArrowLeftIcon
-                size={16}
-                onClick={handleDecreaseProductQuantityClick}
-              />
+            <Button
+              size="icon"
+              variant="outline"
+              className="h-8 w-8"
+              onClick={handleDecreaseProductQuantityClick}
+            >
+              <ArrowLeftIcon size={16} />
             </Button>
 
             <span className="text-xs">{product.quantity}</span>
 
-            <Button size="icon" variant="outline" className="h-8 w-8">
+            <Button
+              size="icon"
+              variant="outline"
+              className="h-8 w-8"
+              onClick={handleIncreaseProductQuantityClick}
+            >
               <ArrowRightIcon size={16} />
             </Button>
           </div>
         </div>
       </div>
 
-      <Button size="icon" variant="outline">
+      <Button
+        size="icon"
+        variant="outline"
+        onClick={handleRemoveProductFromCartClick}
+      >
         <TrashIcon size={16} />
       </Button>
     </div>
