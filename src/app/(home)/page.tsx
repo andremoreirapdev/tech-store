@@ -6,7 +6,7 @@ import SectionTitle from "@/components/ui/section-title";
 
 export default async function Home() {
   //Busca os produtos com discountPercentage > 0 (Ofertas)
-  const dells = await prismaClient.product.findMany({
+  const deals = await prismaClient.product.findMany({
     where: {
       discountPercentage: {
         gt: 0,
@@ -45,7 +45,7 @@ export default async function Home() {
 
       <div>
         <SectionTitle>Ofertas</SectionTitle>
-        <ProductList products={dells} />
+        <ProductList products={deals} />
       </div>
 
       <PromoBanner
