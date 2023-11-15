@@ -22,6 +22,8 @@ export const POST = async (request: Request) => {
   );
 
   if (event.type === "checkout.session.completed") {
+    const session = event.data.object as any;
+
     const sessionWithLineItems = await stripe.checkout.sessions.retrieve(
       event.data.object.id,
       {
@@ -32,16 +34,15 @@ export const POST = async (request: Request) => {
     const lineItems = sessionWithLineItems.line_items;
     console.log(lineItems);
 
-    //Criar pedido.
-    //Obs: O stripe tem que estar escutando a rota: stripe listen --forward-to localhost:300/api/order/payment-success
-    //Obs: Criar a tabela de order na schema.prisma
-    // await prismaClient.order.create({
-    //   data: {
-    //     name: "Mouses",
-    //     slug: "mouses",
-    //     imageUrl: "https://fsw-store.s3.sa-east-1.amazonaws.com/mouses.png",
-    //   },
-    // });
+    //Atualiza o pedido. Obs: O stripe tem que estar escutando a rota: stripe listen --forward-to localhost:300/api/order/payment-success
+    await prismaClient.order.update({
+      where: {
+        id: session.metadata.orderId,
+      },
+      data: {
+        status: "PAYMENT_COMFIRMED",
+      },
+    });
   } else {
     console.log("Outro evento -> event type: " + event.type);
   }
